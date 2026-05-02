@@ -39,7 +39,7 @@ module.exports = async function handler(req, res) {
     let hasMore = true;
     let pageCount = 0;
 
-    while (hasMore && pageCount < 10) {
+    while (hasMore) {
       pageCount++;
       const body = { page_size: 100 };
       if (cursor) body.start_cursor = cursor;
@@ -87,7 +87,7 @@ async function fetchDatabaseItems(notionKey, databaseId) {
   const items = [];
   let cursor;
   let hasMore = true;
-  while (hasMore && items.length < 500) {
+  while (hasMore) {
     const body = { page_size: 100 };
     if (cursor) body.start_cursor = cursor;
     const data = await notionPost(notionKey, `https://api.notion.com/v1/databases/${databaseId}/query`, body);
