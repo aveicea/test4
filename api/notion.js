@@ -19,6 +19,20 @@ module.exports = async function handler(req, res) {
     }
   }
 
+  if (action === 'database') {
+    if (!pageId) return res.status(400).json({ success: false, error: 'pageId is required' });
+    try {
+      const [schema, items] = await Promise.all([
+        notionGet(notionKey, `https://api.notion.com/v1/databases/${pageId}`),
+        fetchDatabaseItems(notionKey, pageId),
+      ]);
+      return res.status(200).json({ success: true, schema, items });
+    } catch (err) {
+      return res.status(500).json({ success: false, error: err.message });
+    }
+  }
+
+  // Default: search
   try {
     const results = [];
     let cursor;
@@ -29,30 +43,7 @@ module.exports = async function handler(req, res) {
       pageCount++;
       const body = { page_size: 100 };
       if (cursor) body.start_cursor = cursor;
-
-      const notionRes = await fetch('https://api.notion.com/v1/search', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${notionKey}`,
-          'Notion-Version': '2022-06-28',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      });
-
-      const text = await notionRes.text();
-      let data;
-      try { data = JSON.parse(text); } catch (e) {
-        return res.status(500).json({ success: false, error: `Notion returned invalid JSON: ${text.slice(0, 200)}` });
-      }
-
-      if (!notionRes.ok) {
-        return res.status(notionRes.status).json({
-          success: false,
-          error: data.message || data.error || `Notion API error ${notionRes.status}`,
-        });
-      }
-
+      const data = await notionPost(notionKey, 'https://api.notion.com/v1/search', body);
       results.push(...(data.results || []));
       hasMore = data.has_more;
       cursor = data.next_cursor;
@@ -64,6 +55,49 @@ module.exports = async function handler(req, res) {
   }
 };
 
+async function notionGet(notionKey, url) {
+  const res = await fetch(url, {
+    headers: { 'Authorization': `Bearer ${notionKey}`, 'Notion-Version': '2022-06-28' },
+  });
+  const text = await res.text();
+  let data;
+  try { data = JSON.parse(text); } catch (e) { throw new Error(`Notion returned invalid JSON: ${text.slice(0, 200)}`); }
+  if (!res.ok) throw new Error(data.message || `Notion API error ${res.status}`);
+  return data;
+}
+
+async function notionPost(notionKey, url, body) {
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${notionKey}`,
+      'Notion-Version': '2022-06-28',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+  const text = await res.text();
+  let data;
+  try { data = JSON.parse(text); } catch (e) { throw new Error(`Notion returned invalid JSON: ${text.slice(0, 200)}`); }
+  if (!res.ok) throw new Error(data.message || `Notion API error ${res.status}`);
+  return data;
+}
+
+async function fetchDatabaseItems(notionKey, databaseId) {
+  const items = [];
+  let cursor;
+  let hasMore = true;
+  while (hasMore && items.length < 500) {
+    const body = { page_size: 100 };
+    if (cursor) body.start_cursor = cursor;
+    const data = await notionPost(notionKey, `https://api.notion.com/v1/databases/${databaseId}/query`, body);
+    items.push(...(data.results || []));
+    hasMore = data.has_more;
+    cursor = data.next_cursor;
+  }
+  return items;
+}
+
 async function fetchBlocks(notionKey, blockId, depth = 0) {
   if (depth > 3) return [];
   const blocks = [];
@@ -74,21 +108,7 @@ async function fetchBlocks(notionKey, blockId, depth = 0) {
     const url = new URL(`https://api.notion.com/v1/blocks/${blockId}/children`);
     url.searchParams.set('page_size', '100');
     if (cursor) url.searchParams.set('start_cursor', cursor);
-
-    const notionRes = await fetch(url.toString(), {
-      headers: {
-        'Authorization': `Bearer ${notionKey}`,
-        'Notion-Version': '2022-06-28',
-      },
-    });
-
-    const text = await notionRes.text();
-    let data;
-    try { data = JSON.parse(text); } catch (e) {
-      throw new Error(`Notion returned invalid JSON: ${text.slice(0, 200)}`);
-    }
-
-    if (!notionRes.ok) throw new Error(data.message || `Notion API error ${notionRes.status}`);
+    const data = await notionGet(notionKey, url.toString());
 
     for (const block of (data.results || [])) {
       if (block.has_children) {

@@ -19,80 +19,45 @@
       --radius: 10px;
       --radius-sm: 6px;
     }
-
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #1a1a1a;
-        --bg-secondary: #242424;
-        --bg-tertiary: #2c2c2c;
-        --text: #f0f0f0;
-        --text-secondary: #aaa;
-        --text-tertiary: #666;
-        --border: rgba(255,255,255,0.1);
-        --border-hover: rgba(255,255,255,0.2);
+        --bg: #1a1a1a; --bg-secondary: #242424; --bg-tertiary: #2c2c2c;
+        --text: #f0f0f0; --text-secondary: #aaa; --text-tertiary: #666;
+        --border: rgba(255,255,255,0.1); --border-hover: rgba(255,255,255,0.2);
       }
     }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--bg-tertiary);
-      color: var(--text);
-      min-height: 100vh;
-      padding: 2rem 1rem;
-    }
-
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg-tertiary); color: var(--text); min-height: 100vh; padding: 2rem 1rem; }
     .wrapper { max-width: 900px; margin: 0 auto; }
 
-    /* Header */
     .header { display: flex; align-items: center; gap: 12px; margin-bottom: 2rem; }
     .header h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.3px; }
     .header p { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
 
-    /* Card */
     .card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1rem; }
     .field-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
     .input-row { display: flex; gap: 8px; align-items: center; }
-
-    input[type="text"], input[type="password"] {
-      flex: 1; padding: 10px 14px; font-size: 14px;
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      border: 1px solid var(--border); border-radius: var(--radius-sm);
-      background: var(--bg-secondary); color: var(--text); outline: none; transition: border-color 0.15s;
-    }
+    input[type="text"], input[type="password"] { flex: 1; padding: 10px 14px; font-size: 14px; font-family: 'SF Mono','Fira Code',monospace; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg-secondary); color: var(--text); outline: none; transition: border-color 0.15s; }
     input:focus { border-color: var(--border-hover); }
-
-    .eye-btn {
-      background: none; border: 1px solid var(--border); border-radius: var(--radius-sm);
-      width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;
-      cursor: pointer; color: var(--text-secondary); transition: background 0.1s;
-    }
+    .eye-btn { background: none; border: 1px solid var(--border); border-radius: var(--radius-sm); width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-secondary); transition: background 0.1s; }
     .eye-btn:hover { background: var(--bg-secondary); }
-
-    .connect-btn {
-      width: 100%; margin-top: 12px; padding: 11px; font-size: 14px; font-weight: 600;
-      border: none; border-radius: var(--radius-sm); background: var(--text); color: var(--bg);
-      cursor: pointer; transition: opacity 0.15s, transform 0.1s;
-    }
+    .connect-btn { width: 100%; margin-top: 12px; padding: 11px; font-size: 14px; font-weight: 600; border: none; border-radius: var(--radius-sm); background: var(--text); color: var(--bg); cursor: pointer; transition: opacity 0.15s, transform 0.1s; }
     .connect-btn:hover { opacity: 0.85; }
     .connect-btn:active { transform: scale(0.99); }
     .connect-btn:disabled { opacity: 0.35; cursor: not-allowed; }
-
     .hint { font-size: 12px; color: var(--text-tertiary); margin-top: 10px; line-height: 1.7; }
     .hint a { color: #2563eb; text-decoration: none; }
     .hint a:hover { text-decoration: underline; }
 
-    /* Status */
     .status { padding: 12px 16px; border-radius: var(--radius-sm); font-size: 13px; margin-bottom: 1rem; display: none; line-height: 1.5; }
     .status.error   { background: #fff1f0; color: #b91c1c; border: 1px solid #fecaca; display: block; }
     .status.loading { background: var(--bg-secondary); color: var(--text-secondary); border: 1px solid var(--border); display: block; }
     .status.success { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; display: block; }
-
     @media (prefers-color-scheme: dark) {
       .status.error   { background: #2c1515; color: #f87171; border-color: #7f1d1d; }
       .status.success { background: #0f2a1a; color: #4ade80; border-color: #14532d; }
     }
 
-    /* Toolbar */
     .toolbar { display: flex; gap: 8px; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; }
     .search-wrap { position: relative; flex: 1; min-width: 160px; }
     .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-tertiary); pointer-events: none; }
@@ -101,13 +66,8 @@
     select { padding: 9px 12px; font-size: 13px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg); color: var(--text); outline: none; cursor: pointer; font-family: inherit; }
     .count { font-size: 12px; color: var(--text-tertiary); margin-left: auto; white-space: nowrap; }
 
-    /* Grid */
     .pages-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
-    .page-card {
-      background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 6px;
-      cursor: pointer; transition: border-color 0.15s, transform 0.12s, box-shadow 0.12s;
-    }
+    .page-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 6px; cursor: pointer; transition: border-color 0.15s, transform 0.12s, box-shadow 0.12s; }
     .page-card:hover { border-color: var(--border-hover); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
     .page-icon { width: 34px; height: 34px; border-radius: 7px; background: var(--bg-secondary); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
     .page-title { font-size: 13px; font-weight: 500; color: var(--text); line-height: 1.4; word-break: break-word; margin-top: 2px; }
@@ -123,127 +83,111 @@
     .empty { grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: var(--text-tertiary); font-size: 14px; }
 
     /* ── Page Detail Overlay ── */
-    .page-detail {
-      position: fixed; inset: 0; background: var(--bg); z-index: 100;
-      overflow-y: auto; opacity: 0; pointer-events: none;
-      transition: opacity 0.18s ease;
-    }
+    .page-detail { position: fixed; inset: 0; background: var(--bg); z-index: 100; overflow-y: auto; opacity: 0; pointer-events: none; transition: opacity 0.18s ease; }
     .page-detail.open { opacity: 1; pointer-events: auto; }
 
-    .detail-header {
-      position: sticky; top: 0; background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      padding: 10px 24px; display: flex; align-items: center; gap: 10px; z-index: 10;
-    }
-    .back-btn {
-      display: flex; align-items: center; gap: 6px;
-      background: none; border: 1px solid var(--border); border-radius: var(--radius-sm);
-      padding: 6px 12px; font-size: 13px; cursor: pointer; color: var(--text-secondary);
-      transition: background 0.1s; white-space: nowrap; flex-shrink: 0;
-    }
+    .detail-header { position: sticky; top: 0; background: var(--bg); border-bottom: 1px solid var(--border); padding: 10px 24px; display: flex; align-items: center; gap: 10px; z-index: 10; }
+    .back-btn { display: flex; align-items: center; gap: 6px; background: none; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 12px; font-size: 13px; cursor: pointer; color: var(--text-secondary); transition: background 0.1s; white-space: nowrap; flex-shrink: 0; }
     .back-btn:hover { background: var(--bg-secondary); }
-
     .breadcrumb { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--text-tertiary); overflow: hidden; flex: 1; }
     .crumb-item { cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .crumb-item:hover { color: var(--text); }
-    .crumb-sep { flex-shrink: 0; }
-
-    .notion-link-btn {
-      display: flex; align-items: center; gap: 5px; margin-left: auto;
-      font-size: 12px; color: var(--text-tertiary); text-decoration: none;
-      border: 1px solid var(--border); border-radius: var(--radius-sm);
-      padding: 5px 10px; white-space: nowrap; flex-shrink: 0; transition: background 0.1s;
-    }
+    .notion-link-btn { display: flex; align-items: center; gap: 5px; margin-left: auto; font-size: 12px; color: var(--text-tertiary); text-decoration: none; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 5px 10px; white-space: nowrap; flex-shrink: 0; transition: background 0.1s; }
     .notion-link-btn:hover { background: var(--bg-secondary); color: var(--text); }
 
-    .detail-body { max-width: 720px; margin: 0 auto; padding: 48px 24px 96px; }
-
-    .detail-page-header { margin-bottom: 32px; }
+    .detail-body { max-width: 900px; margin: 0 auto; padding: 48px 24px 96px; }
     .detail-page-icon { font-size: 52px; line-height: 1; margin-bottom: 12px; }
-    .detail-page-title { font-size: 36px; font-weight: 700; letter-spacing: -0.5px; line-height: 1.3; }
+    .detail-page-icon:empty { display: none; }
+    .detail-page-title { font-size: 36px; font-weight: 700; letter-spacing: -0.5px; line-height: 1.3; margin-bottom: 24px; }
+
+    /* ── Properties ── */
+    .page-props { margin-bottom: 16px; }
+    .prop-row { display: flex; align-items: baseline; min-height: 32px; border-radius: 4px; }
+    .prop-row:hover { background: var(--bg-secondary); }
+    .prop-name { width: 180px; flex-shrink: 0; font-size: 13px; color: var(--text-secondary); padding: 5px 8px; display: flex; align-items: center; gap: 5px; }
+    .prop-value { flex: 1; font-size: 14px; padding: 5px 8px; line-height: 1.5; word-break: break-word; }
+    .props-divider { border: none; border-top: 1px solid var(--border); margin: 16px 0 28px; }
+
+    .select-tag { display: inline-flex; padding: 1px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; margin: 1px 2px; }
+    .select-default { background: var(--bg-tertiary); color: var(--text-secondary); }
+    .select-gray    { background: #e3e2e0; color: #787774; }
+    .select-brown   { background: #eee0da; color: #9f6b53; }
+    .select-orange  { background: #fadec9; color: #d9730d; }
+    .select-yellow  { background: #fdecc8; color: #cb912f; }
+    .select-green   { background: #dbeddb; color: #448361; }
+    .select-blue    { background: #d3e5ef; color: #337ea9; }
+    .select-purple  { background: #e8deee; color: #9065b0; }
+    .select-pink    { background: #f5e0e9; color: #c14f8a; }
+    .select-red     { background: #ffe2dd; color: #c4554d; }
+    @media (prefers-color-scheme: dark) {
+      .select-gray   { background: #454443; color: #b2b1ae; }
+      .select-brown  { background: #4a3228; color: #d4956a; }
+      .select-orange { background: #5c3b1e; color: #f5a623; }
+      .select-yellow { background: #5c4b1e; color: #f5d242; }
+      .select-green  { background: #1e3a2a; color: #5fb370; }
+      .select-blue   { background: #1a3a4e; color: #5bafd6; }
+      .select-purple { background: #3b2a4e; color: #be8ee6; }
+      .select-pink   { background: #4e1f38; color: #e87cbf; }
+      .select-red    { background: #4e1e1e; color: #e87c7c; }
+    }
+
+    /* ── Database Table ── */
+    .db-count { font-size: 13px; color: var(--text-secondary); margin-bottom: 10px; }
+    .db-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 24px; }
+    .db-table { border-collapse: collapse; width: 100%; font-size: 14px; }
+    .db-table thead th { background: var(--bg-secondary); padding: 9px 14px; text-align: left; font-size: 12px; font-weight: 500; color: var(--text-secondary); border-bottom: 1px solid var(--border); white-space: nowrap; }
+    .db-table tbody tr { border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.1s; }
+    .db-table tbody tr:last-child { border-bottom: none; }
+    .db-table tbody tr:hover { background: var(--bg-secondary); }
+    .db-table td { padding: 9px 14px; vertical-align: middle; max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .db-table .title-col { font-weight: 500; max-width: 300px; }
+    .db-empty { text-align: center; padding: 40px; color: var(--text-tertiary); font-size: 14px; }
+    .prop-type-icon { font-size: 11px; opacity: 0.6; }
 
     /* ── Notion Block Styles ── */
-    .notion-p { font-size: 15px; line-height: 1.75; margin-bottom: 2px; min-height: 1.75em; color: var(--text); }
+    .notion-p { font-size: 15px; line-height: 1.75; margin-bottom: 2px; min-height: 1.75em; }
     .notion-h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.3px; margin: 28px 0 4px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
     .notion-h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.2px; margin: 22px 0 4px; }
     .notion-h3 { font-size: 18px; font-weight: 600; margin: 18px 0 4px; }
-
     .notion-ul, .notion-ol { margin: 4px 0 4px 24px; }
     .notion-ul li, .notion-ol li { font-size: 15px; line-height: 1.75; margin-bottom: 2px; padding-left: 4px; }
     .block-children { margin-left: 24px; }
-
     .notion-todo { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 4px; font-size: 15px; line-height: 1.75; }
     .notion-todo input[type="checkbox"] { margin-top: 4px; flex-shrink: 0; cursor: default; }
     .todo-done { text-decoration: line-through; color: var(--text-secondary); }
-
     .notion-toggle { font-size: 15px; line-height: 1.75; margin-bottom: 4px; }
     .notion-toggle > summary { cursor: pointer; list-style: none; display: flex; align-items: flex-start; gap: 6px; }
     .notion-toggle > summary::before { content: '▶'; font-size: 10px; color: var(--text-tertiary); flex-shrink: 0; margin-top: 6px; transition: transform 0.18s; }
     .notion-toggle[open] > summary::before { transform: rotate(90deg); }
     .notion-toggle > summary::-webkit-details-marker { display: none; }
-    .notion-toggle > .block-children { margin-top: 4px; }
-
-    .notion-code {
-      background: var(--bg-secondary); border: 1px solid var(--border);
-      border-radius: var(--radius-sm); padding: 16px; margin: 8px 0;
-      overflow-x: auto; font-size: 13px;
-      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace; line-height: 1.65;
-    }
+    .notion-code { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; margin: 8px 0; overflow-x: auto; font-size: 13px; font-family: 'SF Mono','Fira Code','Cascadia Code',monospace; line-height: 1.65; }
     .notion-code::before { content: attr(data-lang); display: block; font-size: 11px; color: var(--text-tertiary); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
     .notion-code:not([data-lang])::before, .notion-code[data-lang=""]::before { display: none; }
-    .inline-code { background: rgba(135,131,120,0.15); border-radius: 3px; padding: 2px 5px; font-size: 87%; font-family: 'SF Mono', 'Fira Code', monospace; }
-
+    .inline-code { background: rgba(135,131,120,0.15); border-radius: 3px; padding: 2px 5px; font-size: 87%; font-family: 'SF Mono','Fira Code',monospace; }
     .notion-quote { border-left: 3px solid var(--text); padding: 4px 0 4px 16px; margin: 8px 0; font-size: 15px; line-height: 1.75; color: var(--text-secondary); }
-
-    .notion-callout {
-      display: flex; gap: 12px; background: var(--bg-secondary);
-      border-radius: var(--radius-sm); padding: 14px 16px; margin: 8px 0;
-      border: 1px solid var(--border);
-    }
+    .notion-callout { display: flex; gap: 12px; background: var(--bg-secondary); border-radius: var(--radius-sm); padding: 14px 16px; margin: 8px 0; border: 1px solid var(--border); }
     .callout-icon { font-size: 20px; flex-shrink: 0; line-height: 1.5; }
     .callout-body { font-size: 15px; line-height: 1.75; flex: 1; }
-
     .notion-divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
-
     .notion-image { margin: 12px 0; }
     .notion-image img { max-width: 100%; border-radius: var(--radius-sm); display: block; }
     .notion-image figcaption { font-size: 12px; color: var(--text-tertiary); margin-top: 6px; text-align: center; }
-
-    .notion-child-page {
-      display: flex; align-items: center; gap: 8px;
-      padding: 8px 12px; border-radius: var(--radius-sm); margin: 4px 0;
-      font-size: 14px; cursor: pointer; border: 1px solid transparent;
-      transition: background 0.1s, border-color 0.1s;
-    }
+    .notion-child-page { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: var(--radius-sm); margin: 4px 0; font-size: 14px; cursor: pointer; border: 1px solid transparent; transition: background 0.1s, border-color 0.1s; }
     .notion-child-page:hover { background: var(--bg-secondary); border-color: var(--border); }
-
-    .notion-bookmark {
-      display: block; border: 1px solid var(--border); border-radius: var(--radius-sm);
-      padding: 12px 16px; margin: 8px 0; text-decoration: none; color: #2563eb;
-      font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-      transition: background 0.1s;
-    }
+    .notion-bookmark { display: block; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 16px; margin: 8px 0; text-decoration: none; color: #2563eb; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; transition: background 0.1s; }
     .notion-bookmark:hover { background: var(--bg-secondary); }
-
-    .notion-embed, .notion-media-link {
-      border: 1px solid var(--border); border-radius: var(--radius-sm);
-      padding: 12px 16px; margin: 8px 0; font-size: 13px;
-    }
+    .notion-embed, .notion-media-link { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 16px; margin: 8px 0; font-size: 13px; }
     .notion-embed a, .notion-media-link a { color: #2563eb; text-decoration: none; }
     .notion-embed a:hover, .notion-media-link a:hover { text-decoration: underline; }
-
     .notion-table-wrap { overflow-x: auto; margin: 12px 0; border-radius: var(--radius-sm); border: 1px solid var(--border); }
     .notion-table { border-collapse: collapse; width: 100%; font-size: 14px; }
     .notion-table td, .notion-table th { border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 8px 12px; text-align: left; line-height: 1.5; }
     .notion-table td:last-child, .notion-table th:last-child { border-right: none; }
     .notion-table tr:last-child td, .notion-table tr:last-child th { border-bottom: none; }
     .notion-table th { background: var(--bg-secondary); font-weight: 600; }
-
     .notion-columns { display: flex; gap: 16px; margin: 8px 0; }
     .notion-column { flex: 1; min-width: 0; }
-
-    .notion-equation { font-family: 'SF Mono', monospace; font-size: 14px; color: var(--text-secondary); padding: 4px 0; }
-
+    .notion-equation { font-family: 'SF Mono',monospace; font-size: 14px; color: var(--text-secondary); padding: 4px 0; }
     .detail-loading { text-align: center; padding: 64px 24px; color: var(--text-tertiary); font-size: 14px; }
     .detail-empty { text-align: center; padding: 64px 24px; color: var(--text-tertiary); font-size: 14px; }
     .detail-error { color: #b91c1c; font-size: 14px; padding: 12px 0; }
@@ -269,8 +213,7 @@
         <input id="notionKey" type="password" placeholder="secret_xxxxxxxxxxxxxxxxxxxx" />
         <button class="eye-btn" id="toggleEye" title="보기/숨기기">
           <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-            <circle cx="12" cy="12" r="3"/>
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
           </svg>
         </button>
       </div>
@@ -306,9 +249,7 @@
   <div id="pageDetail" class="page-detail">
     <div class="detail-header">
       <button class="back-btn" onclick="navigateBack()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="15 18 9 12 15 6"/>
-        </svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
         <span id="backLabel">목록으로</span>
       </button>
       <div class="breadcrumb" id="breadcrumb"></div>
@@ -321,10 +262,8 @@
       </a>
     </div>
     <div class="detail-body">
-      <div class="detail-page-header">
-        <div class="detail-page-icon" id="detailIcon"></div>
-        <h1 class="detail-page-title" id="detailTitle"></h1>
-      </div>
+      <div class="detail-page-icon" id="detailIcon"></div>
+      <h1 class="detail-page-title" id="detailTitle"></h1>
       <div id="detailContent"></div>
     </div>
   </div>
@@ -333,17 +272,22 @@
     let allPages = [];
     let displayedPages = [];
     const navStack = [];
+    const dbItemsMap = {};
 
     const NOTION_COLORS = {
-      gray: '#9b9a97', brown: '#64473a', orange: '#d9730d',
-      yellow: '#dfab01', green: '#0f7b6c', blue: '#0b6e99',
-      purple: '#6940a5', pink: '#ad1a72', red: '#e03e3e',
+      gray:'#9b9a97', brown:'#64473a', orange:'#d9730d',
+      yellow:'#dfab01', green:'#0f7b6c', blue:'#0b6e99',
+      purple:'#6940a5', pink:'#ad1a72', red:'#e03e3e',
     };
 
-    document.getElementById('notionKey').addEventListener('keydown', e => {
-      if (e.key === 'Enter') fetchPages();
-    });
+    const PROP_ICONS = {
+      rich_text:'Aa', number:'#', select:'◉', multi_select:'◉', status:'◉',
+      date:'📅', checkbox:'☑', url:'🔗', email:'✉', phone_number:'📞',
+      people:'👤', files:'📎', relation:'↗', formula:'ƒ', rollup:'∑',
+      created_time:'🕐', last_edited_time:'🕐', created_by:'👤', last_edited_by:'👤',
+    };
 
+    document.getElementById('notionKey').addEventListener('keydown', e => { if (e.key === 'Enter') fetchPages(); });
     document.getElementById('toggleEye').addEventListener('click', () => {
       const inp = document.getElementById('notionKey');
       const icon = document.getElementById('eyeIcon');
@@ -355,11 +299,8 @@
         icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
       }
     });
-
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && document.getElementById('pageDetail').classList.contains('open')) {
-        navigateBack();
-      }
+      if (e.key === 'Escape' && document.getElementById('pageDetail').classList.contains('open')) navigateBack();
     });
 
     function showStatus(type, msg) {
@@ -375,27 +316,19 @@
         showStatus('error', 'API 키 형식이 올바르지 않습니다. secret_ 또는 ntn_ 으로 시작해야 합니다.');
         return;
       }
-
       const btn = document.getElementById('connectBtn');
-      btn.disabled = true;
-      btn.textContent = '불러오는 중...';
+      btn.disabled = true; btn.textContent = '불러오는 중...';
       showStatus('loading', 'Notion 페이지를 불러오는 중입니다...');
       document.getElementById('results').style.display = 'none';
-
       try {
         const res = await fetch('/api/notion', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ notionKey }),
         });
-
         const data = await res.json();
         if (!data.success) throw new Error(data.error || '알 수 없는 오류');
-
         allPages = data.results || [];
-        btn.disabled = false;
-        btn.textContent = '연결하기';
-
+        btn.disabled = false; btn.textContent = '연결하기';
         if (allPages.length === 0) {
           showStatus('success', '연결 성공! 공유된 페이지가 없습니다. 통합(Integration)을 페이지에 공유해주세요.');
         } else {
@@ -404,8 +337,7 @@
           filterPages();
         }
       } catch (err) {
-        btn.disabled = false;
-        btn.textContent = '연결하기';
+        btn.disabled = false; btn.textContent = '연결하기';
         showStatus('error', '오류: ' + err.message);
       }
     }
@@ -445,10 +377,7 @@
     function renderPages(pages) {
       displayedPages = pages;
       const grid = document.getElementById('pagesGrid');
-      if (!pages.length) {
-        grid.innerHTML = '<div class="empty">검색 결과가 없습니다.</div>';
-        return;
-      }
+      if (!pages.length) { grid.innerHTML = '<div class="empty">검색 결과가 없습니다.</div>'; return; }
       grid.innerHTML = pages.map((page, idx) => {
         const title = getTitle(page);
         const icon = getIcon(page);
@@ -472,23 +401,28 @@
 
     function openPage(idx) {
       const page = displayedPages[idx];
+      const icon = getIcon(page) || (page.object === 'database' ? '🗃️' : '');
       navStack.length = 0;
-      navStack.push({ id: page.id, title: getTitle(page), icon: getIcon(page), url: page.url });
+      navStack.push({ id: page.id, title: getTitle(page), icon, url: page.url, type: page.object, pageObj: page });
+      showDetailPage();
+    }
+
+    function openDbItem(id) {
+      const item = dbItemsMap[id];
+      if (!item) return;
+      navStack.push({ id: item.id, title: getTitle(item), icon: getIcon(item) || '', url: item.url, type: 'page', pageObj: item });
       showDetailPage();
     }
 
     function navigateToChild(el) {
-      navStack.push({ id: el.dataset.id, title: el.dataset.title, icon: el.dataset.icon, url: null });
+      navStack.push({ id: el.dataset.id, title: el.dataset.title, icon: el.dataset.icon, url: null, type: el.dataset.type || 'page' });
       showDetailPage();
     }
 
     function navigateBack() {
       navStack.pop();
-      if (navStack.length === 0) {
-        closeDetail();
-      } else {
-        showDetailPage();
-      }
+      if (navStack.length === 0) closeDetail();
+      else showDetailPage();
     }
 
     function navigateToCrumb(idx) {
@@ -508,62 +442,167 @@
         detail.classList.add('open');
         document.body.style.overflow = 'hidden';
       }
+      detail.scrollTop = 0;
 
       const current = navStack[navStack.length - 1];
 
-      // Scroll to top
-      detail.scrollTop = 0;
-
       // Breadcrumb
       const crumb = document.getElementById('breadcrumb');
-      if (navStack.length > 1) {
-        crumb.innerHTML = navStack.slice(0, -1).map((item, i) =>
-          `<span class="crumb-item" onclick="navigateToCrumb(${i})">${esc(item.title.length > 16 ? item.title.slice(0, 16) + '…' : item.title)}</span>`
-        ).join('<span class="crumb-sep"> › </span>') + '<span class="crumb-sep"> › </span>';
-      } else {
-        crumb.innerHTML = '';
-      }
+      crumb.innerHTML = navStack.length > 1
+        ? navStack.slice(0, -1).map((item, i) =>
+            `<span class="crumb-item" onclick="navigateToCrumb(${i})">${esc(item.title.length > 16 ? item.title.slice(0,16)+'…' : item.title)}</span>`
+          ).join('<span class="crumb-sep"> › </span>') + '<span class="crumb-sep"> › </span>'
+        : '';
 
-      // Back button label
+      // Back label
       const backLabel = document.getElementById('backLabel');
       if (navStack.length === 1) {
         backLabel.textContent = '목록으로';
       } else {
-        const prev = navStack[navStack.length - 2];
-        const t = prev.title;
-        backLabel.textContent = t.length > 20 ? t.slice(0, 20) + '…' : t;
+        const t = navStack[navStack.length - 2].title;
+        backLabel.textContent = t.length > 20 ? t.slice(0,20)+'…' : t;
       }
 
-      // Page title & icon
       document.getElementById('detailIcon').textContent = current.icon || '';
       document.getElementById('detailTitle').textContent = current.title;
 
-      // Notion link
       const notionLink = document.getElementById('detailNotionLink');
-      if (current.url) {
-        notionLink.href = current.url;
-        notionLink.style.display = 'flex';
-      } else {
-        notionLink.style.display = 'none';
-      }
+      if (current.url) { notionLink.href = current.url; notionLink.style.display = 'flex'; }
+      else { notionLink.style.display = 'none'; }
 
-      // Load blocks
+      const notionKey = document.getElementById('notionKey').value.trim();
       const contentEl = document.getElementById('detailContent');
       contentEl.innerHTML = '<div class="detail-loading">불러오는 중…</div>';
 
-      const notionKey = document.getElementById('notionKey').value.trim();
       try {
-        const res = await fetch('/api/notion', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ notionKey, action: 'blocks', pageId: current.id }),
-        });
-        const data = await res.json();
-        if (!data.success) throw new Error(data.error || '알 수 없는 오류');
-        contentEl.innerHTML = renderBlocks(data.blocks);
+        if (current.type === 'database') {
+          const res = await fetch('/api/notion', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ notionKey, action: 'database', pageId: current.id }),
+          });
+          const data = await res.json();
+          if (!data.success) throw new Error(data.error || '알 수 없는 오류');
+          contentEl.innerHTML = renderDatabaseView(data.schema, data.items);
+        } else {
+          const res = await fetch('/api/notion', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ notionKey, action: 'blocks', pageId: current.id }),
+          });
+          const data = await res.json();
+          if (!data.success) throw new Error(data.error || '알 수 없는 오류');
+          const propsHtml = current.pageObj ? renderPageProperties(current.pageObj) : '';
+          const blocksHtml = renderBlocks(data.blocks);
+          contentEl.innerHTML = propsHtml + (propsHtml ? '<hr class="props-divider">' : '') + blocksHtml;
+        }
       } catch (err) {
         contentEl.innerHTML = `<p class="detail-error">불러오기 실패: ${esc(err.message)}</p>`;
       }
+    }
+
+    // ── Property Rendering ──
+
+    function formatDate(dateStr) {
+      if (!dateStr) return '';
+      try { return new Date(dateStr).toLocaleDateString('ko-KR', { year:'numeric', month:'short', day:'numeric' }); }
+      catch { return dateStr; }
+    }
+
+    function renderPropertyValue(prop) {
+      if (!prop) return '';
+      switch (prop.type) {
+        case 'title':       return renderRichText(prop.title);
+        case 'rich_text':   return renderRichText(prop.rich_text);
+        case 'number':      return prop.number != null ? String(prop.number) : '';
+        case 'select':      return prop.select ? `<span class="select-tag select-${prop.select.color||'default'}">${esc(prop.select.name)}</span>` : '';
+        case 'status':      return prop.status ? `<span class="select-tag select-${prop.status.color||'default'}">${esc(prop.status.name)}</span>` : '';
+        case 'multi_select':return (prop.multi_select||[]).map(s=>`<span class="select-tag select-${s.color||'default'}">${esc(s.name)}</span>`).join('');
+        case 'date': {
+          if (!prop.date) return '';
+          return formatDate(prop.date.start) + (prop.date.end ? ' → '+formatDate(prop.date.end) : '');
+        }
+        case 'checkbox':    return prop.checkbox ? '<span style="color:#448361">✓</span>' : '';
+        case 'url':         return prop.url ? `<a href="${esc(prop.url)}" target="_blank" rel="noopener noreferrer" style="color:#2563eb;word-break:break-all">${esc(prop.url)}</a>` : '';
+        case 'email':       return prop.email ? `<a href="mailto:${esc(prop.email)}" style="color:#2563eb">${esc(prop.email)}</a>` : '';
+        case 'phone_number':return prop.phone_number ? esc(prop.phone_number) : '';
+        case 'people':      return (prop.people||[]).map(p=>esc(p.name||p.id)).join(', ');
+        case 'files':       return (prop.files||[]).map(f=>{
+          const url = f.type==='external' ? f.external?.url : f.file?.url;
+          return url ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer" style="color:#2563eb">${esc(f.name)}</a>` : esc(f.name);
+        }).join(', ');
+        case 'relation':    return prop.relation?.length ? `${prop.relation.length}개` : '';
+        case 'formula': {
+          const f = prop.formula;
+          if (f.type==='string')  return esc(f.string||'');
+          if (f.type==='number')  return f.number!=null ? String(f.number) : '';
+          if (f.type==='boolean') return f.boolean ? '<span style="color:#448361">✓</span>' : '';
+          if (f.type==='date')    return f.date ? formatDate(f.date.start) : '';
+          return '';
+        }
+        case 'rollup': {
+          const r = prop.rollup;
+          if (r.type==='number') return r.number!=null ? String(r.number) : '';
+          if (r.type==='array')  return r.array?.length ? `${r.array.length}개` : '';
+          return '';
+        }
+        case 'created_time':     return formatDate(prop.created_time);
+        case 'last_edited_time': return formatDate(prop.last_edited_time);
+        case 'created_by':       return esc(prop.created_by?.name||'');
+        case 'last_edited_by':   return esc(prop.last_edited_by?.name||'');
+        default: return '';
+      }
+    }
+
+    function renderPageProperties(pageObj) {
+      if (!pageObj?.properties) return '';
+      const entries = Object.entries(pageObj.properties).filter(([, p]) => p.type !== 'title');
+      if (!entries.length) return '';
+      const rows = entries.map(([key, prop]) => {
+        const val = renderPropertyValue(prop);
+        if (!val) return '';
+        const icon = PROP_ICONS[prop.type] || '';
+        return `<div class="prop-row">
+          <div class="prop-name"><span class="prop-type-icon">${icon}</span>${esc(key)}</div>
+          <div class="prop-value">${val}</div>
+        </div>`;
+      }).filter(Boolean).join('');
+      return rows ? `<div class="page-props">${rows}</div>` : '';
+    }
+
+    // ── Database View ──
+
+    function renderDatabaseView(schema, items) {
+      const allProps = Object.entries(schema.properties || {});
+      const titleEntry = allProps.find(([,p]) => p.type === 'title');
+      const otherProps = allProps.filter(([,p]) => p.type !== 'title').slice(0, 7);
+
+      const headers = [
+        `<th>${esc(titleEntry?.[0] || '이름')}</th>`,
+        ...otherProps.map(([key, prop]) => `<th><span class="prop-type-icon">${PROP_ICONS[prop.type]||''}</span> ${esc(key)}</th>`),
+      ].join('');
+
+      if (!items.length) {
+        return `<div class="db-count">0개 항목</div><div class="db-empty">데이터베이스 항목이 없습니다.</div>`;
+      }
+
+      const rows = items.map(item => {
+        dbItemsMap[item.id] = item;
+        const icon = getIcon(item);
+        const iconHtml = icon ? `${icon} ` : '';
+        const titleVal = titleEntry ? (renderPropertyValue(item.properties?.[titleEntry[0]]) || '(제목 없음)') : '(제목 없음)';
+        const cells = [
+          `<td class="title-col">${iconHtml}${titleVal}</td>`,
+          ...otherProps.map(([key]) => `<td>${renderPropertyValue(item.properties?.[key]) || ''}</td>`),
+        ].join('');
+        return `<tr onclick="openDbItem('${item.id}')">${cells}</tr>`;
+      }).join('');
+
+      return `<div class="db-count">${items.length}개 항목</div>
+        <div class="db-table-wrap">
+          <table class="db-table">
+            <thead><tr>${headers}</tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>`;
     }
 
     // ── Block Rendering ──
@@ -580,13 +619,10 @@
         if (ann.underline) text = `<u>${text}</u>`;
         if (ann.color && ann.color !== 'default') {
           const isBg = ann.color.endsWith('_background');
-          const key = ann.color.replace('_background', '');
-          const color = NOTION_COLORS[key];
-          if (color) {
-            text = isBg
-              ? `<mark style="background:${color}33;border-radius:2px;padding:1px 3px">${text}</mark>`
-              : `<span style="color:${color}">${text}</span>`;
-          }
+          const color = NOTION_COLORS[ann.color.replace('_background','')];
+          if (color) text = isBg
+            ? `<mark style="background:${color}33;border-radius:2px;padding:1px 3px">${text}</mark>`
+            : `<span style="color:${color}">${text}</span>`;
         }
         if (rt.href) text = `<a href="${esc(rt.href)}" target="_blank" rel="noopener noreferrer">${text}</a>`;
         return text;
@@ -619,7 +655,7 @@
           const rows = (block.children || []).map((row, ri) => {
             if (row.type !== 'table_row') return '';
             const cells = (row.table_row?.cells || []).map((cell, ci) => {
-              const tag = (hasColHeader && ri === 0) || (hasRowHeader && ci === 0) ? 'th' : 'td';
+              const tag = (hasColHeader && ri===0)||(hasRowHeader && ci===0) ? 'th' : 'td';
               return `<${tag}>${renderRichText(cell)}</${tag}>`;
             }).join('');
             return `<tr>${cells}</tr>`;
@@ -639,83 +675,64 @@
       const data = block[type] || {};
       const text = renderRichText(data.rich_text || []);
       const ch = block.children?.length ? `<div class="block-children">${renderBlocks(block.children)}</div>` : '';
-
       switch (type) {
-        case 'paragraph':
-          return `<p class="notion-p">${text || '<br>'}</p>${ch}`;
-        case 'heading_1':
-          return `<h1 class="notion-h1">${text}</h1>${ch}`;
-        case 'heading_2':
-          return `<h2 class="notion-h2">${text}</h2>${ch}`;
-        case 'heading_3':
-          return `<h3 class="notion-h3">${text}</h3>${ch}`;
-        case 'to_do':
-          return `<div class="notion-todo"><input type="checkbox" ${data.checked ? 'checked' : ''} disabled><span class="${data.checked ? 'todo-done' : ''}">${text}</span></div>${ch}`;
-        case 'toggle':
-          return `<details class="notion-toggle"><summary>${text || '토글'}</summary>${ch}</details>`;
+        case 'paragraph':    return `<p class="notion-p">${text||'<br>'}</p>${ch}`;
+        case 'heading_1':    return `<h1 class="notion-h1">${text}</h1>${ch}`;
+        case 'heading_2':    return `<h2 class="notion-h2">${text}</h2>${ch}`;
+        case 'heading_3':    return `<h3 class="notion-h3">${text}</h3>${ch}`;
+        case 'to_do':        return `<div class="notion-todo"><input type="checkbox" ${data.checked?'checked':''} disabled><span class="${data.checked?'todo-done':''}">${text}</span></div>${ch}`;
+        case 'toggle':       return `<details class="notion-toggle"><summary>${text||'토글'}</summary>${ch}</details>`;
         case 'code': {
           const lang = data.language || '';
-          const code = (data.rich_text || []).map(r => r.plain_text).join('');
-          return `<pre class="notion-code"${lang ? ` data-lang="${esc(lang)}"` : ''}><code>${esc(code)}</code></pre>`;
+          const code = (data.rich_text||[]).map(r=>r.plain_text).join('');
+          return `<pre class="notion-code"${lang?` data-lang="${esc(lang)}"` : ''}><code>${esc(code)}</code></pre>`;
         }
         case 'image': {
-          const url = data.type === 'external' ? data.external?.url : data.file?.url;
+          const url = data.type==='external' ? data.external?.url : data.file?.url;
           if (!url) return '';
-          const cap = renderRichText(data.caption || []);
-          return `<figure class="notion-image"><img src="${esc(url)}" alt="" loading="lazy">${cap ? `<figcaption>${cap}</figcaption>` : ''}</figure>`;
+          const cap = renderRichText(data.caption||[]);
+          return `<figure class="notion-image"><img src="${esc(url)}" alt="" loading="lazy">${cap?`<figcaption>${cap}</figcaption>`:''}</figure>`;
         }
-        case 'divider':
-          return '<hr class="notion-divider">';
-        case 'quote':
-          return `<blockquote class="notion-quote">${text}${ch}</blockquote>`;
+        case 'divider':      return '<hr class="notion-divider">';
+        case 'quote':        return `<blockquote class="notion-quote">${text}${ch}</blockquote>`;
         case 'callout': {
-          const icon = data.icon?.type === 'emoji' ? data.icon.emoji : '💡';
+          const icon = data.icon?.type==='emoji' ? data.icon.emoji : '💡';
           return `<div class="notion-callout"><span class="callout-icon">${icon}</span><div class="callout-body">${text}${ch}</div></div>`;
         }
         case 'child_page':
-          return `<div class="notion-child-page" data-id="${block.id}" data-title="${esc(data.title || '')}" data-icon="📄" onclick="navigateToChild(this)">📄 ${esc(data.title || '(제목 없음)')}</div>`;
+          return `<div class="notion-child-page" data-id="${block.id}" data-title="${esc(data.title||'')}" data-icon="📄" data-type="page" onclick="navigateToChild(this)">📄 ${esc(data.title||'(제목 없음)')}</div>`;
         case 'child_database':
-          return `<div class="notion-child-page" data-id="${block.id}" data-title="${esc(data.title || '')}" data-icon="🗃️" onclick="navigateToChild(this)">🗃️ ${esc(data.title || '(제목 없음)')}</div>`;
+          return `<div class="notion-child-page" data-id="${block.id}" data-title="${esc(data.title||'')}" data-icon="🗃️" data-type="database" onclick="navigateToChild(this)">🗃️ ${esc(data.title||'(제목 없음)')}</div>`;
         case 'bookmark': {
-          const url = data.url || '';
-          const cap = renderRichText(data.caption || []);
-          return `<a class="notion-bookmark" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${cap || esc(url)}</a>`;
+          const url = data.url||'';
+          const cap = renderRichText(data.caption||[]);
+          return `<a class="notion-bookmark" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${cap||esc(url)}</a>`;
         }
-        case 'link_preview':
-          return `<a class="notion-bookmark" href="${esc(data.url || '')}" target="_blank" rel="noopener noreferrer">${esc(data.url || '')}</a>`;
-        case 'embed':
-          return `<div class="notion-embed"><a href="${esc(data.url || '')}" target="_blank" rel="noopener noreferrer">🔗 ${esc(data.url || '')}</a></div>`;
+        case 'link_preview': return `<a class="notion-bookmark" href="${esc(data.url||'')}" target="_blank" rel="noopener noreferrer">${esc(data.url||'')}</a>`;
+        case 'embed':        return `<div class="notion-embed"><a href="${esc(data.url||'')}" target="_blank" rel="noopener noreferrer">🔗 ${esc(data.url||'')}</a></div>`;
         case 'video': {
-          const url = data.type === 'external' ? data.external?.url : data.file?.url;
+          const url = data.type==='external' ? data.external?.url : data.file?.url;
           return url ? `<div class="notion-media-link"><a href="${esc(url)}" target="_blank" rel="noopener noreferrer">🎥 동영상 보기</a></div>` : '';
         }
         case 'file': {
-          const url = data.type === 'external' ? data.external?.url : data.file?.url;
-          const cap = renderRichText(data.caption || []);
-          return url ? `<div class="notion-media-link"><a href="${esc(url)}" target="_blank" rel="noopener noreferrer">📎 ${cap || '파일 다운로드'}</a></div>` : '';
+          const url = data.type==='external' ? data.external?.url : data.file?.url;
+          const cap = renderRichText(data.caption||[]);
+          return url ? `<div class="notion-media-link"><a href="${esc(url)}" target="_blank" rel="noopener noreferrer">📎 ${cap||'파일 다운로드'}</a></div>` : '';
         }
         case 'pdf': {
-          const url = data.type === 'external' ? data.external?.url : data.file?.url;
+          const url = data.type==='external' ? data.external?.url : data.file?.url;
           return url ? `<div class="notion-media-link"><a href="${esc(url)}" target="_blank" rel="noopener noreferrer">📄 PDF 보기</a></div>` : '';
         }
         case 'audio': {
-          const url = data.type === 'external' ? data.external?.url : data.file?.url;
+          const url = data.type==='external' ? data.external?.url : data.file?.url;
           return url ? `<audio controls src="${esc(url)}" style="width:100%;margin:8px 0"></audio>` : '';
         }
-        case 'equation':
-          return `<div class="notion-equation">${esc(data.expression || '')}</div>`;
-        case 'column_list':
-          return `<div class="notion-columns">${ch}</div>`;
-        case 'column':
-          return `<div class="notion-column">${ch}</div>`;
-        case 'synced_block':
-          return ch;
-        case 'breadcrumb':
-        case 'table_of_contents':
-        case 'unsupported':
-          return '';
-        default:
-          return text ? `<p class="notion-p">${text}</p>${ch}` : ch;
+        case 'equation':     return `<div class="notion-equation">${esc(data.expression||'')}</div>`;
+        case 'column_list':  return `<div class="notion-columns">${ch}</div>`;
+        case 'column':       return `<div class="notion-column">${ch}</div>`;
+        case 'synced_block': return ch;
+        case 'breadcrumb': case 'table_of_contents': case 'unsupported': return '';
+        default: return text ? `<p class="notion-p">${text}</p>${ch}` : ch;
       }
     }
 
