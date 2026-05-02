@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notion 페이지 탐색기</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --bg-secondary: #f7f7f5;
+      --bg-tertiary: #f1f0ec;
+      --text: #1a1a1a;
+      --text-secondary: #6b6b6b;
+      --text-tertiary: #999;
+      --border: rgba(0,0,0,0.1);
+      --border-hover: rgba(0,0,0,0.2);
+      --radius: 10px;
+      --radius-sm: 6px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1a1a1a;
+        --bg-secondary: #242424;
+        --bg-tertiary: #2c2c2c;
+        --text: #f0f0f0;
+        --text-secondary: #aaa;
+        --text-tertiary: #666;
+        --border: rgba(255,255,255,0.1);
+        --border-hover: rgba(255,255,255,0.2);
+      }
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg-tertiary);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    .wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 2rem;
+    }
+    .header h1 {
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+    }
+    .header p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* Card */
+    .card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .field-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    input[type="text"], input[type="password"] {
+      flex: 1;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg-secondary);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    input:focus { border-color: var(--border-hover); }
+
+    .eye-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: background 0.1s;
+    }
+    .eye-btn:hover { background: var(--bg-secondary); }
+
+    .connect-btn {
+      width: 100%;
+      margin-top: 12px;
+      padding: 11px;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: var(--text);
+      color: var(--bg);
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    .connect-btn:hover { opacity: 0.85; }
+    .connect-btn:active { transform: scale(0.99); }
+    .connect-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    .hint {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: 10px;
+      line-height: 1.7;
+    }
+    .hint a { color: #2563eb; text-decoration: none; }
+    .hint a:hover { text-decoration: underline; }
+
+    /* Status */
+    .status {
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      margin-bottom: 1rem;
+      display: none;
+      line-height: 1.5;
+    }
+    .status.error   { background: #fff1f0; color: #b91c1c; border: 1px solid #fecaca; display: block; }
+    .status.loading { background: var(--bg-secondary); color: var(--text-secondary); border: 1px solid var(--border); display: block; }
+    .status.success { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; display: block; }
+
+    @media (prefers-color-scheme: dark) {
+      .status.error   { background: #2c1515; color: #f87171; border-color: #7f1d1d; }
+      .status.success { background: #0f2a1a; color: #4ade80; border-color: #14532d; }
+    }
+
+    /* Toolbar */
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .search-wrap { position: relative; flex: 1; min-width: 160px; }
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-tertiary);
+      pointer-events: none;
+    }
+    .search-input {
+      width: 100%;
+      padding: 9px 12px 9px 32px;
+      font-size: 13px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      color: var(--text);
+      outline: none;
+      font-family: inherit;
+    }
+    .search-input:focus { border-color: var(--border-hover); }
+
+    select {
+      padding: 9px 12px;
+      font-size: 13px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--bg);
+      color: var(--text);
+      outline: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .count {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-left: auto;
+      white-space: nowrap;
+    }
+
+    /* Grid */
+    .pages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 10px;
+    }
+
+    .page-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.1rem;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: border-color 0.15s, transform 0.12s, box-shadow 0.12s;
+    }
+    .page-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+
+    .page-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 7px;
+      background: var(--bg-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .page-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.4;
+      word-break: break-word;
+      margin-top: 2px;
+    }
+    .page-meta {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+    .badge {
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 100px;
+      font-weight: 600;
+    }
+    .badge-page { background: #dbeafe; color: #1d4ed8; }
+    .badge-db   { background: #ede9fe; color: #6d28d9; }
+
+    @media (prefers-color-scheme: dark) {
+      .badge-page { background: #1e3a5f; color: #93c5fd; }
+      .badge-db   { background: #2e1f5e; color: #c4b5fd; }
+    }
+
+    .page-date { font-size: 11px; color: var(--text-tertiary); }
+
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-tertiary);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+    <div class="header">
+      <svg width="32" height="32" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100" height="100" rx="20" fill="#1a1a1a"/>
+        <path d="M22 19C18.7 19.3 16 22.2 16 25.7V74.3C16 77.8 18.7 80.7 22 81L61 84C64.5 84.3 67.5 81.6 67.5 78.1V29.9C67.5 26.6 65.1 23.8 61.8 23.4L25 19.1C24.2 19 23 18.8 22 19Z" fill="white"/>
+        <rect x="71" y="30" width="9" height="44" rx="3" fill="white"/>
+      </svg>
+      <div>
+        <h1>Notion 페이지 탐색기</h1>
+        <p>API 키로 연결된 모든 페이지를 확인하세요</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="field-label">Notion API 키</div>
+      <div class="input-row">
+        <input id="notionKey" type="password" placeholder="secret_xxxxxxxxxxxxxxxxxxxx" />
+        <button class="eye-btn" id="toggleEye" title="보기/숨기기">
+          <svg id="eyeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+      <button class="connect-btn" id="connectBtn" onclick="fetchPages()">연결하기</button>
+      <p class="hint">
+        <a href="https://www.notion.so/my-integrations" target="_blank">notion.so/my-integrations</a>에서 API 키를 발급 받으세요.<br>
+        조회할 Notion 페이지에 통합(Integration)을 공유해야 페이지가 보입니다.
+      </p>
+    </div>
+
+    <div class="status" id="status"></div>
+
+    <div id="results" style="display:none;">
+      <div class="toolbar">
+        <div class="search-wrap">
+          <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input class="search-input" id="searchInput" type="text" placeholder="페이지 검색..." oninput="filterPages()" />
+        </div>
+        <select id="typeFilter" onchange="filterPages()">
+          <option value="all">전체 유형</option>
+          <option value="page">페이지</option>
+          <option value="database">데이터베이스</option>
+        </select>
+        <span class="count" id="countBadge"></span>
+      </div>
+      <div class="pages-grid" id="pagesGrid"></div>
+    </div>
+
+  </div>
+
+  <script>
+    let allPages = [];
+
+    document.getElementById('notionKey').addEventListener('keydown', e => {
+      if (e.key === 'Enter') fetchPages();
+    });
+
+    document.getElementById('toggleEye').addEventListener('click', () => {
+      const inp = document.getElementById('notionKey');
+      const icon = document.getElementById('eyeIcon');
+      if (inp.type === 'password') {
+        inp.type = 'text';
+        icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>';
+      } else {
+        inp.type = 'password';
+        icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+      }
+    });
+
+    function showStatus(type, msg) {
+      const el = document.getElementById('status');
+      el.className = 'status ' + type;
+      el.textContent = msg;
+    }
+
+    async function fetchPages() {
+      const notionKey = document.getElementById('notionKey').value.trim();
+      if (!notionKey) { showStatus('error', 'Notion API 키를 입력해주세요.'); return; }
+      if (!notionKey.startsWith('secret_') && !notionKey.startsWith('ntn_')) {
+        showStatus('error', 'API 키 형식이 올바르지 않습니다. secret_ 또는 ntn_ 으로 시작해야 합니다.');
+        return;
+      }
+
+      const btn = document.getElementById('connectBtn');
+      btn.disabled = true;
+      btn.textContent = '불러오는 중...';
+      showStatus('loading', 'Notion 페이지를 불러오는 중입니다...');
+      document.getElementById('results').style.display = 'none';
+
+      try {
+        const res = await fetch('/api/notion', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ notionKey })
+        });
+
+        const data = await res.json();
+        if (!data.success) throw new Error(data.error || '알 수 없는 오류');
+
+        allPages = data.results || [];
+        btn.disabled = false;
+        btn.textContent = '연결하기';
+
+        if (allPages.length === 0) {
+          showStatus('success', '연결 성공! 공유된 페이지가 없습니다. 통합(Integration)을 페이지에 공유해주세요.');
+        } else {
+          showStatus('success', `연결 성공! 총 ${allPages.length}개의 페이지/데이터베이스를 불러왔습니다.`);
+          document.getElementById('results').style.display = 'block';
+          filterPages();
+        }
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = '연결하기';
+        showStatus('error', '오류: ' + err.message);
+      }
+    }
+
+    function getTitle(page) {
+      if (page.object === 'database') {
+        const t = page.title;
+        return Array.isArray(t) && t.length ? t.map(x => x.plain_text).join('') || '(제목 없음)' : '(제목 없는 데이터베이스)';
+      }
+      const props = page.properties || {};
+      for (const key of Object.keys(props)) {
+        const p = props[key];
+        if (p.type === 'title' && p.title) return p.title.map(x => x.plain_text).join('') || '(제목 없음)';
+      }
+      return '(제목 없음)';
+    }
+
+    function getIcon(page) {
+      return page.icon?.type === 'emoji' ? page.icon.emoji : null;
+    }
+
+    function getLastEdited(page) {
+      return new Date(page.last_edited_time).toLocaleDateString('ko-KR', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function filterPages() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const type = document.getElementById('typeFilter').value;
+      const filtered = allPages.filter(p => {
+        const title = getTitle(p).toLowerCase();
+        return (!q || title.includes(q)) && (type === 'all' || p.object === type);
+      });
+      document.getElementById('countBadge').textContent = filtered.length + '개';
+      renderPages(filtered);
+    }
+
+    function renderPages(pages) {
+      const grid = document.getElementById('pagesGrid');
+      if (!pages.length) {
+        grid.innerHTML = '<div class="empty">검색 결과가 없습니다.</div>';
+        return;
+      }
+      grid.innerHTML = pages.map(page => {
+        const title = getTitle(page);
+        const icon = getIcon(page);
+        const type = page.object;
+        const url = page.url;
+        const date = getLastEdited(page);
+        const iconHtml = icon
+          ? `<div class="page-icon">${icon}</div>`
+          : `<div class="page-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" opacity="0.35"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="7" y1="8" x2="17" y2="8"/><line x1="7" y1="12" x2="14" y2="12"/><line x1="7" y1="16" x2="11" y2="16"/></svg></div>`;
+        const badge = type === 'database'
+          ? `<span class="badge badge-db">데이터베이스</span>`
+          : `<span class="badge badge-page">페이지</span>`;
+        return `<a class="page-card" href="${esc(url)}" target="_blank" rel="noopener noreferrer">
+          ${iconHtml}
+          <div class="page-title">${esc(title)}</div>
+          <div class="page-meta">${badge}<span class="page-date">${date}</span></div>
+        </a>`;
+      }).join('');
+    }
+
+    function esc(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+  </script>
+</body>
+</html>
