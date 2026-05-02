@@ -6,7 +6,7 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).json({ ok: true });
   if (req.method !== 'POST') return res.status(405).json({ success: false, error: 'Method not allowed' });
 
-  const { notionKey, action, pageId } = req.body || {};
+  const { notionKey, action, pageId, cursor: startCursor } = req.body || {};
   if (!notionKey) return res.status(400).json({ success: false, error: 'notionKey is required' });
 
   if (action === 'blocks') {
@@ -22,24 +22,26 @@ module.exports = async function handler(req, res) {
   if (action === 'database') {
     if (!pageId) return res.status(400).json({ success: false, error: 'pageId is required' });
     try {
-      const [schema, items] = await Promise.all([
-        notionGet(notionKey, `https://api.notion.com/v1/databases/${pageId}`),
-        fetchDatabaseItems(notionKey, pageId),
-      ]);
-      return res.status(200).json({ success: true, schema, items });
+      const { items, hasMore, nextCursor } = await fetchDatabaseItems(notionKey, pageId, startCursor);
+      if (startCursor) {
+        // 추가 로드: 스키마 생략
+        return res.status(200).json({ success: true, items, hasMore, nextCursor });
+      }
+      const schema = await notionGet(notionKey, `https://api.notion.com/v1/databases/${pageId}`);
+      return res.status(200).json({ success: true, schema, items, hasMore, nextCursor });
     } catch (err) {
       return res.status(500).json({ success: false, error: err.message });
     }
   }
 
-  // Default: search
+  // Default: search (500개씩 페이지네이션)
   try {
     const results = [];
-    let cursor;
+    let cursor = startCursor;
     let hasMore = true;
     let pageCount = 0;
 
-    while (hasMore) {
+    while (hasMore && pageCount < 5) {
       pageCount++;
       const body = { page_size: 100 };
       if (cursor) body.start_cursor = cursor;
@@ -49,7 +51,7 @@ module.exports = async function handler(req, res) {
       cursor = data.next_cursor;
     }
 
-    return res.status(200).json({ success: true, results });
+    return res.status(200).json({ success: true, results, hasMore, nextCursor: cursor });
   } catch (err) {
     return res.status(500).json({ success: false, error: err.message });
   }
@@ -83,11 +85,14 @@ async function notionPost(notionKey, url, body) {
   return data;
 }
 
-async function fetchDatabaseItems(notionKey, databaseId) {
+async function fetchDatabaseItems(notionKey, databaseId, startCursor) {
   const items = [];
-  let cursor;
+  let cursor = startCursor;
   let hasMore = true;
-  while (hasMore) {
+  let pageCount = 0;
+
+  while (hasMore && pageCount < 5) {
+    pageCount++;
     const body = { page_size: 100 };
     if (cursor) body.start_cursor = cursor;
     const data = await notionPost(notionKey, `https://api.notion.com/v1/databases/${databaseId}/query`, body);
@@ -95,7 +100,8 @@ async function fetchDatabaseItems(notionKey, databaseId) {
     hasMore = data.has_more;
     cursor = data.next_cursor;
   }
-  return items;
+
+  return { items, hasMore, nextCursor: cursor };
 }
 
 async function fetchBlocks(notionKey, blockId, depth = 0) {
