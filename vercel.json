@@ -1,5 +1,4 @@
 {
-  "framework": null,
   "functions": {
     "api/notion.js": {
       "memory": 256,
